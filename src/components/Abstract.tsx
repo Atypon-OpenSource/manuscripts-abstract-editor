@@ -1,0 +1,67 @@
+import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import React from 'react'
+import { parse } from '../parse'
+import { schema } from '../schema'
+
+export interface AbstractProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  id?: string
+  value?: string
+}
+
+export class Abstract<Props extends AbstractProps> extends React.Component<
+  Props
+> {
+  protected editorRef: React.RefObject<HTMLDivElement>
+  protected view: EditorView
+
+  public constructor(props: Props) {
+    super(props)
+
+    this.editorRef = React.createRef()
+
+    this.view = new EditorView(undefined, {
+      editable: () => false,
+      state: EditorState.create({
+        doc: parse(props.value),
+        schema,
+      }),
+    })
+  }
+
+  public componentDidMount() {
+    if (this.editorRef.current) {
+      this.editorRef.current.appendChild(this.view.dom)
+    }
+
+    this.updateClassList()
+  }
+
+  public componentWillReceiveProps(nextProps: Props) {
+    this.view.updateState(
+      EditorState.create({
+        doc: parse(nextProps.value),
+        schema: this.view.state.schema,
+      })
+    )
+    this.updateClassList()
+  }
+
+  public render() {
+    return (
+      <div
+        className={this.props.className}
+        id={this.props.id}
+        ref={this.editorRef}
+      />
+    )
+  }
+
+  protected updateClassList() {
+    this.view.dom.classList.toggle(
+      'empty-node',
+      this.view.state.doc.childCount === 0
+    )
+  }
+}
