@@ -8,8 +8,9 @@ export type Marks =
   | 'subscript'
   | 'superscript'
   | 'underline'
+export type AbstractSchema = Schema<Nodes, Marks>
 
-export const schema = new Schema<Nodes, Marks>({
+export const schema: AbstractSchema = new Schema<Nodes, Marks>({
   marks: {
     bold: {
       parseDOM: [
