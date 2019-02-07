@@ -1,3 +1,3 @@
 # manuscripts-abstract-editor
 
-React components for editing and viewing a manuscript abstract.
+A React + ProseMirror editor for manuscript abstracts.
