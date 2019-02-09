@@ -9,7 +9,7 @@ import { Abstract, AbstractProps } from './Abstract'
 
 interface Props extends AbstractProps {
   handleChange?: (value: string) => void
-  handleFocus?: (view: EditorView, event: Event) => boolean
+  handleStateChange?: (view: EditorView, docChanged: boolean) => void
 }
 
 export class AbstractField extends Abstract<Props> {
@@ -36,15 +36,24 @@ export class AbstractField extends Abstract<Props> {
         this.view.updateState(state)
         this.updateClassList()
 
-        if (this.props.handleChange && transactions.some(tr => tr.docChanged)) {
+        const docChanged = transactions.some(tr => tr.docChanged)
+
+        if (this.props.handleStateChange) {
+          this.props.handleStateChange(this.view, docChanged)
+        }
+
+        // TODO: debounce this to reduce serialization
+        if (this.props.handleChange && docChanged) {
           this.props.handleChange(serialize(state.doc))
         }
       },
       handleDOMEvents: {
-        focus: (view, event) => {
-          return this.props.handleFocus
-            ? this.props.handleFocus(view, event)
-            : false
+        focus: view => {
+          if (this.props.handleStateChange) {
+            this.props.handleStateChange(view, false)
+          }
+
+          return false
         },
       },
       state: EditorState.create({

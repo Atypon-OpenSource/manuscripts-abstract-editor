@@ -16,7 +16,7 @@ const markActive = (type: MarkType) => (
 }
 
 export const toolbar: ToolbarConfig<AbstractSchema> = {
-  formatting: {
+  style: {
     bold: {
       title: 'Toggle bold',
       content: icons.bold,
@@ -38,6 +38,8 @@ export const toolbar: ToolbarConfig<AbstractSchema> = {
       enable: toggleMark(schema.marks.underline),
       run: toggleMark(schema.marks.underline),
     },
+  },
+  vertical: {
     subscript: {
       title: 'Toggle subscript',
       content: icons.subscript,
