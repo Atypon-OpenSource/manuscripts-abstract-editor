@@ -1,4 +1,6 @@
 import { Schema } from 'prosemirror-model'
+import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 
 export type Nodes = 'text' | 'abstract' | 'paragraph'
 export type Marks =
@@ -8,7 +10,10 @@ export type Marks =
   | 'subscript'
   | 'superscript'
   | 'underline'
+
 export type AbstractSchema = Schema<Nodes, Marks>
+export type AbstractEditorState = EditorState<AbstractSchema>
+export type AbstractEditorView = EditorView<AbstractSchema>
 
 export const schema: AbstractSchema = new Schema<Nodes, Marks>({
   marks: {
