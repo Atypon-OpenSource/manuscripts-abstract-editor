@@ -2,7 +2,7 @@
   "name": "@manuscripts/abstract-editor",
   "description": "React components for editing and viewing a manuscript abstract",
   "version": "0.2.1",
-  "repository": "gitlab:mpapp-public/manuscripts-abstract-editor",
+  "repository": "github:Atypon-OpenSource/manuscripts-abstract-editor",
   "license": "Apache-2.0",
   "main": "dist/cjs",
   "module": "dist/es",
