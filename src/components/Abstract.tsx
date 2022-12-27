@@ -37,7 +37,7 @@ export class Abstract<Props extends AbstractProps> extends React.Component<
 
     this.editorRef = React.createRef()
 
-    this.view = new EditorView(undefined, {
+    this.view = new EditorView(null, {
       editable: () => false,
       state: EditorState.create({
         doc: parse(props.value),

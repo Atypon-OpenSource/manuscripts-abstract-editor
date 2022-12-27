@@ -19,11 +19,9 @@ import { MarkType } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import { ToolbarConfig } from './components/AbstractToolbar'
 import icons from './icons'
-import { AbstractSchema, schema } from './schema'
+import { schema } from './schema'
 
-const markActive = (type: MarkType) => (
-  state: EditorState<AbstractSchema>
-): boolean => {
+const markActive = (type: MarkType) => (state: EditorState): boolean => {
   const { from, $from, to, empty } = state.selection
 
   return empty
@@ -31,7 +29,7 @@ const markActive = (type: MarkType) => (
     : state.doc.rangeHasMark(from, to, type)
 }
 
-export const toolbar: ToolbarConfig<AbstractSchema> = {
+export const toolbar: ToolbarConfig = {
   style: {
     bold: {
       title: 'Toggle bold',
