@@ -42,7 +42,7 @@ export class AbstractField extends Abstract<Props> {
       attributes.tabindex = String(this.props.tabIndex)
     }
 
-    this.view = new EditorView(undefined, {
+    this.view = new EditorView(null, {
       attributes,
       dispatchTransaction: transaction => {
         const { state, transactions } = this.view.state.applyTransaction(

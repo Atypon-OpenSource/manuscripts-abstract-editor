@@ -28,8 +28,6 @@ export type Marks =
   | 'underline'
 
 export type AbstractSchema = Schema<Nodes, Marks>
-export type AbstractEditorState = EditorState<AbstractSchema>
-export type AbstractEditorView = EditorView<AbstractSchema>
 
 export const schema: AbstractSchema = new Schema<Nodes, Marks>({
   marks: {
