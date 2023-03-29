@@ -19,6 +19,7 @@ import { EditorState, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
 import styled from 'styled-components'
+
 import { AbstractSchema } from '../schema'
 import { toolbar } from '../toolbar'
 
@@ -32,7 +33,7 @@ const ToolbarButton = styled.button.attrs({
 })<{
   'data-active'?: boolean
 }>`
-  background-color: ${props => (props['data-active'] ? '#eee' : '#fff')};
+  background-color: ${(props) => (props['data-active'] ? '#eee' : '#fff')};
   border: 1px solid #d6d6d6;
   cursor: pointer;
   padding: 2px 12px;
@@ -41,7 +42,7 @@ const ToolbarButton = styled.button.attrs({
   transition: 0.2s all;
 
   &:hover {
-    background: ${props => (props['data-active'] ? '#eee' : '#f6f6f6')};
+    background: ${(props) => (props['data-active'] ? '#eee' : '#f6f6f6')};
     z-index: 2;
   }
 
@@ -102,30 +103,31 @@ interface Props<S extends Schema> {
   view: EditorView
 }
 
-const Toolbar = <S extends Schema>(): React.FunctionComponent<Props<S>> => ({
-  view,
-}) => (
-  <ToolbarContainer>
-    {Object.entries(toolbar).map(([groupKey, toolbarGroup]) => (
-      <ToolbarGroup key={groupKey}>
-        {Object.entries(toolbarGroup).map(([itemKey, item]) => (
-          <ToolbarItem key={itemKey}>
-            <ToolbarButton
-              title={item.title}
-              data-active={item.active && item.active(view.state)}
-              disabled={item.enable && !item.enable(view.state)}
-              onMouseDown={event => {
-                event.preventDefault()
-                item.run(view.state, view.dispatch)
-              }}
-            >
-              {item.content}
-            </ToolbarButton>
-          </ToolbarItem>
+const Toolbar =
+  <S extends Schema>(): React.FunctionComponent<Props<S>> =>
+  ({ view }) =>
+    (
+      <ToolbarContainer>
+        {Object.entries(toolbar).map(([groupKey, toolbarGroup]) => (
+          <ToolbarGroup key={groupKey}>
+            {Object.entries(toolbarGroup).map(([itemKey, item]) => (
+              <ToolbarItem key={itemKey}>
+                <ToolbarButton
+                  title={item.title}
+                  data-active={item.active && item.active(view.state)}
+                  disabled={item.enable && !item.enable(view.state)}
+                  onMouseDown={(event) => {
+                    event.preventDefault()
+                    item.run(view.state, view.dispatch)
+                  }}
+                >
+                  {item.content}
+                </ToolbarButton>
+              </ToolbarItem>
+            ))}
+          </ToolbarGroup>
         ))}
-      </ToolbarGroup>
-    ))}
-  </ToolbarContainer>
-)
+      </ToolbarContainer>
+    )
 
 export const AbstractToolbar = Toolbar<AbstractSchema>()

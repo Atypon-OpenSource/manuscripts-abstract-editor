@@ -17,6 +17,7 @@
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
+
 import { parse } from '../parse'
 import { plugins } from '../plugins'
 import { schema } from '../schema'
@@ -44,15 +45,14 @@ export class AbstractField extends Abstract<Props> {
 
     this.view = new EditorView(null, {
       attributes,
-      dispatchTransaction: transaction => {
-        const { state, transactions } = this.view.state.applyTransaction(
-          transaction
-        )
+      dispatchTransaction: (transaction) => {
+        const { state, transactions } =
+          this.view.state.applyTransaction(transaction)
 
         this.view.updateState(state)
         this.updateClassList()
 
-        const docChanged = transactions.some(tr => tr.docChanged)
+        const docChanged = transactions.some((tr) => tr.docChanged)
 
         if (this.props.handleStateChange) {
           this.props.handleStateChange(this.view, docChanged)
@@ -64,7 +64,7 @@ export class AbstractField extends Abstract<Props> {
         }
       },
       handleDOMEvents: {
-        focus: view => {
+        focus: (view) => {
           if (this.props.handleStateChange) {
             this.props.handleStateChange(view, false)
           }
