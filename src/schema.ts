@@ -35,14 +35,14 @@ export const schema: AbstractSchema = new Schema<Nodes, Marks>({
       parseDOM: [
         {
           // Google Docs can produce content wrapped in <b style="fontWeight:normal">, which isn't actually bold. This workaround is copied from prosemirror-schema-basic.
-          getAttrs: dom =>
+          getAttrs: (dom) =>
             (dom as HTMLElement).style.fontWeight !== 'normal' && null,
           tag: 'b',
         },
         { tag: 'strong' },
         {
           // This regex, copied from prosemirror-schema-basic, matches all the possible "font-weight" values that can mean "bold".
-          getAttrs: value =>
+          getAttrs: (value) =>
             /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
           style: 'font-weight',
         },
@@ -95,7 +95,7 @@ export const schema: AbstractSchema = new Schema<Nodes, Marks>({
       content: 'text*',
       group: 'block',
       parseDOM: [{ tag: 'p' }],
-      toDOM: node => ['p', 0],
+      toDOM: (node) => ['p', 0],
     },
     text: {},
   },

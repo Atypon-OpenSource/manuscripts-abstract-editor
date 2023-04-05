@@ -17,6 +17,7 @@
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import React from 'react'
+
 import { parse } from '../parse'
 import { schema } from '../schema'
 
@@ -26,9 +27,9 @@ export interface AbstractProps
   value?: string
 }
 
-export class Abstract<Props extends AbstractProps> extends React.Component<
-  Props
-> {
+export class Abstract<
+  Props extends AbstractProps
+> extends React.Component<Props> {
   protected editorRef: React.RefObject<HTMLDivElement>
   protected view: EditorView
 
@@ -54,7 +55,7 @@ export class Abstract<Props extends AbstractProps> extends React.Component<
     this.updateClassList()
   }
 
-  public componentWillReceiveProps(nextProps: Props) {
+  public UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.view.updateState(
       EditorState.create({
         doc: parse(nextProps.value),
